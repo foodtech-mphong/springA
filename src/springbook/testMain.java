@@ -13,7 +13,7 @@ public class testMain {
 		UserDao dao = new UserDao();
 	
 		User user = new User();
-		user.setId("whiteship");
+		user.setId("whiteship1");
 		user.setName("ȫ�浿");
 		user.setPassword("married");
 
