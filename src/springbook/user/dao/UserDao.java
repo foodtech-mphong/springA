@@ -11,9 +11,9 @@ public class UserDao
 {
 	private ConnectionMaker connectionMaker;
 	
-	public UserDao()
+	public UserDao(ConnectionMaker connectionMaker)
 	{
-		connectionMaker = new DConnectionMaker();
+		this.connectionMaker = connectionMaker;
 	}
 	
 	public void add(User user)
