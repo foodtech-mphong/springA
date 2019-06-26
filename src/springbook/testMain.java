@@ -13,18 +13,18 @@ public class testMain {
 		UserDao dao = new UserDao();
 	
 		User user = new User();
-		user.setId("whiteship2");
-		user.setName("È«±æµ¿");
+		user.setId("whiteship3");
+		user.setName("í™ë¯¼í‘œ");
 		user.setPassword("married");
 
 		dao.add(user);
 		
-		System.out.println(user.getId() + " µî·Ï ¼º°ø");
+		System.out.println(user.getId() + "ë“±ë¡ ì„±ê³µ");
 		
 		User user2 = dao.get(user.getId());
 		System.out.println(user2.getName());
 		System.out.println(user2.getPassword());
-		System.out.println(user2.getId() + " Á¶È¸ ¼º°ø"); 
+		System.out.println(user2.getId() + "ì¡°íšŒ ì„±ê³µ"); 
 	}
 
 }
