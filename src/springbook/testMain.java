@@ -2,32 +2,34 @@ package springbook;
 
 import java.sql.SQLException;
 
-import springbook.user.dao.ConnectionMaker;
-import springbook.user.dao.DConnectionMaker;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import springbook.user.dao.DaoFactory;
 import springbook.user.dao.UserDao;
-import springbook.user.domain.User;
 
 public class testMain {
 
 	public static void main(String[] args)
 	throws ClassNotFoundException, SQLException
 	{
-		ConnectionMaker connectionMaker = new DConnectionMaker();
-		UserDao dao = new UserDao(connectionMaker);
-	
-		User user = new User();
-		user.setId("whiteship4");
-		user.setName("홍민표");
-		user.setPassword("married");
+		DaoFactory factory = new DaoFactory();
+		UserDao dao1 = factory.userDao();
+		UserDao dao2 = factory.userDao();
+		
+		System.out.println("1-1> " + dao1);
+		System.out.println("1-2> " + dao2);
+		
+		ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
+		UserDao dao3 = context.getBean("userDao", UserDao.class);
+		UserDao dao4 = context.getBean("userDao", UserDao.class);
 
-		dao.add(user);
+		System.out.println("2-1> " + dao3);
+		System.out.println("2-2> " + dao4);
+
 		
-		System.out.println(user.getId() + " 등록 성공");
 		
-		User user2 = dao.get(user.getId());
-		System.out.println(user2.getName());
-		System.out.println(user2.getPassword());
-		System.out.println(user2.getId() + " 조회 성공"); 
+		
 	}
 
 }
