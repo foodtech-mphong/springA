@@ -15,10 +15,16 @@ public class UserDao
 	private User user;
 	
 	
-	public UserDao(ConnectionMaker connectionMaker)
+	
+
+
+	
+	public void setConnectionMaker(ConnectionMaker connectionMaker)
 	{
 		this.connectionMaker = connectionMaker;
 	}
+	
+	
 	
 	public void add(User user)
 	throws ClassNotFoundException, SQLException
