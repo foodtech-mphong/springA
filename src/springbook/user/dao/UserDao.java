@@ -47,7 +47,7 @@ public class UserDao
 		rs .next();
 		this.user = new User();
 		this.user.setId(rs.getString("id"));
-		this.user.setName(rs.getString("name"));
+		//this.user.setName(rs.getString("name"));
 		this.user.setPassword(rs.getString("password"));
 		
 		rs.close ();
