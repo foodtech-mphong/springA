@@ -1,7 +1,10 @@
 package springbook.user.dao;
 
+import javax.sql.DataSource;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 @Configuration
 public class DaoFactory
@@ -10,25 +13,23 @@ public class DaoFactory
 	public UserDao userDao()
 	{
 		UserDao userDao = new UserDao();
-		userDao.setConnectionMaker(connectionMaker());
+		userDao.setDataSource(dataSource());
 		return userDao;
 	
 	}
-/*	
-	public AccountrDao accountDao()
-	{
-		return new AccountDao(connectionMaker());
-	}
-	
-	public MessageDao messageDao()
-	{
-		return new MessageDao(connectionMaker());
-	}
-*/	
+
 	@Bean
-	public ConnectionMaker connectionMaker()
+	public DataSource dataSource()
 	{
-		return new DConnectionMaker();
+		SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
+		
+		dataSource.setDriverClass(org.mariadb.jdbc.Driver.class);
+		dataSource.setUrl("jdbc:mariadb://localhost:3306/test");
+		dataSource.setUsername("root");
+		dataSource.setPassword("root");
+		
+		
+		return dataSource;
 	}
 	
 	
