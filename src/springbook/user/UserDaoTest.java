@@ -2,7 +2,15 @@ package springbook.user;
 
 import java.sql.SQLException;
 
+import org.junit.Test;
+
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.is;
+
+
+
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
 import springbook.user.dao.UserDao;
@@ -44,4 +52,27 @@ public class UserDaoTest {
 		}
 	}
 
+	
+	@Test
+	public void addAndGet()
+	throws ClassNotFoundException, SQLException
+	{
+		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		
+		UserDao dao = context.getBean("userDao", UserDao.class);
+		User user = new User();
+		user.setId("test1");
+		user.setName("박테스트");
+		user.setPassword("pwtest");
+		
+		dao.add(user);
+		
+		User user2 = dao.get(user.getId());
+		
+		assertThat(user2.getName(), is(user.getName()));
+		assertThat(user2.getPassword(), is(user.getPassword()));
+		
+		
+	}
+	
 }
