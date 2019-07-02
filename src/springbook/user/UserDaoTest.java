@@ -1,17 +1,15 @@
 package springbook.user;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 import java.sql.SQLException;
 
 import org.junit.Test;
-
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.CoreMatchers.is;
-
-
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import springbook.user.dao.UserDao;
 import springbook.user.domain.User;
@@ -60,19 +58,25 @@ public class UserDaoTest {
 		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		
 		UserDao dao = context.getBean("userDao", UserDao.class);
+		User user1 = new User("usr1_id", "usr1_nm", "usr1_pw");
+		User user2 = new User("usr2_id", "usr2_nm", "usr2_pw");
 		
 		dao.deleteAll();
 		assertThat(dao.getCount(), is(0));
 		
-		User user = new User("usr_id", "usr_nm", "usr_pw");
+		dao.add(user1);
+		dao.add(user2);
+		assertThat(dao.getCount(), is(2));
 		
-		dao.add(user);
-		assertThat(dao.getCount(), is(1));
+		User userget1 = dao.get(user1.getId());
+		assertThat(userget1.getName(), is(user1.getName()));
+		assertThat(userget1.getPassword(), is(user1.getPassword()));
 		
-		User user2 = dao.get(user.getId());
+		User userget2 = dao.get(user2.getId());
+		assertThat(userget2.getName(), is(user2.getName()));
+		assertThat(userget2.getPassword(), is(user2.getPassword()));
 		
-		assertThat(user2.getName(), is(user.getName()));
-		assertThat(user2.getPassword(), is(user.getPassword()));
+		
 		
 		
 	}
@@ -104,6 +108,17 @@ public class UserDaoTest {
 	}
 	
 	
-	
+	@Test(expected=EmptyResultDataAccessException.class)
+	public void getUserFailure()
+	throws ClassNotFoundException, SQLException
+	{
+		ApplicationContext context = new GenericXmlApplicationContext("applicationContext.xml");
+		
+		UserDao dao = context.getBean("userDao", UserDao.class);
+		dao.deleteAll();
+		assertThat(dao.getCount(), is(0));
+
+		dao.get("usr99_id");
+	}
 	
 }

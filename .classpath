@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="src/lib/org.springframework.expression_3.1.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="src/lib/org.springframework.jdbc_3.1.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="src/lib/com.springsource.org.junit-4.7.0.jar"/>
+	<classpathentry kind="lib" path="src/lib/org.springframework.transaction_3.1.1.RELEASE.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
