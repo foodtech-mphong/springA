@@ -61,13 +61,10 @@ public class UserDaoTest {
 		
 		UserDao dao = context.getBean("userDao", UserDao.class);
 		
-		//dao.deleteAll();
+		dao.deleteAll();
 		assertThat(dao.getCount(), is(0));
 		
-		User user = new User();
-		user.setId("test4");
-		user.setName("박테스트");
-		user.setPassword("pwtest");
+		User user = new User("usr_id", "usr_nm", "usr_pw");
 		
 		dao.add(user);
 		assertThat(dao.getCount(), is(1));
@@ -79,5 +76,34 @@ public class UserDaoTest {
 		
 		
 	}
+	
+	
+	@Test
+	public void count()
+	throws SQLException
+	{
+		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		
+		UserDao dao = context.getBean("userDao", UserDao.class);
+		User user1 = new User("usr1_id", "usr1_nm", "usr1_pw");
+		User user2 = new User("usr2_id", "usr2_nm", "usr2_pw");
+		User user3 = new User("usr3_id", "usr3_nm", "usr3_pw");
+
+		dao.deleteAll();
+		assertThat(dao.getCount(), is(0));
+		
+		dao.add(user1);
+		assertThat(dao.getCount(), is(1));
+		
+		dao.add(user2);
+		assertThat(dao.getCount(), is(2));
+
+		dao.add(user3);
+		assertThat(dao.getCount(), is(3));
+
+	}
+	
+	
+	
 	
 }
