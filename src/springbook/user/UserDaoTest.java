@@ -5,6 +5,8 @@ import static org.junit.Assert.assertThat;
 
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -20,7 +24,7 @@ import springbook.user.domain.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="/applicationContext.xml")
-
+@DirtiesContext
 public class UserDaoTest {
 
 	public static void main(String[] args)
@@ -57,9 +61,9 @@ public class UserDaoTest {
 		}
 	}
 
+	@Autowired
+	UserDao dao;
 	
-	
-	private UserDao dao;
 	private User user1;
 	private User user2;
 	private User user3;
@@ -72,8 +76,13 @@ public class UserDaoTest {
 	@Before
 	public void setUp()
 	{
+		System.out.println("this.context> " + this.context);
+		System.out.println("this        > " + this);
+	
+		DataSource dataSource = new SingleConnectionDataSource("jdbc:mariadb://localhost:3306/test", "root", "root", true);
+		dao.setDataSource(dataSource);
 		
-		this.dao = this.context.getBean("userDao", UserDao.class);
+		//this.dao = this.context.getBean("userDao", UserDao.class);
 		
 		this.user1 = new User("usr1_id", "usr1_nm", "usr1_pw");
 		this.user2 = new User("usr2_id", "usr2_nm", "usr2_pw");
